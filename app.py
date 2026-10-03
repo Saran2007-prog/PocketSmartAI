@@ -34,7 +34,38 @@ API_KEY = os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY")
 if not API_KEY:
     raise ValueError("No Google API Key found in environment variables. Please set GOOGLE_API_KEY or GEMINI_API_KEY in your .env file.")
 genai.configure(api_key=API_KEY)
+
+# Gemini Model Priority List with seamless fallback if free-tier rate/quota limits are reached
+MODEL_PRIORITY = [
+    "gemini-3.5-flash",
+    "gemini-flash-latest",
+    "gemini-3.6-flash",
+    "gemini-3.5-flash-lite",
+    "gemini-3.7-flash"
+]
 model = genai.GenerativeModel("gemini-3.5-flash")
+
+def generate_ai_content(contents, **kwargs):
+    """
+    Attempts generation with primary model (gemini-3.5-flash).
+    If a 429 quota or rate-limit error is encountered, automatically falls back
+    to available flash models so the user experience is uninterrupted.
+    """
+    last_exception = None
+    for model_name in MODEL_PRIORITY:
+        try:
+            m = genai.GenerativeModel(model_name)
+            response = m.generate_content(contents, **kwargs)
+            return response
+        except Exception as e:
+            err_msg = str(e)
+            last_exception = e
+            if "429" in err_msg or "quota" in err_msg.lower() or "limit" in err_msg.lower() or "404" in err_msg:
+                print(f"[PocketSmart AI Failover] Quota/availability limit on '{model_name}'. Trying next available model...")
+                continue
+            # For other temporary API errors, also continue fallback
+            continue
+    raise last_exception
 
 # FastAPI App Initialization
 app = FastAPI(title="PocketSmart: AI Budget Planner")
@@ -226,7 +257,7 @@ def get_home_recommendations(budget_input: HomeBudgetInput) -> dict:
     }}
     """
     try:
-        response = model.generate_content(prompt)
+        response = generate_ai_content(prompt)
         result = extract_json_from_response(response.text)
         for cat in result.get("budget_breakdown", []):
             for itm in cat.get("items", []):
@@ -266,7 +297,7 @@ def get_party_recommendations(budget_input: PartyBudgetInput) -> dict:
     }}
     """
     try:
-        response = model.generate_content(prompt)
+        response = generate_ai_content(prompt)
         result = extract_json_from_response(response.text)
         for cat in result.get("budget_breakdown", []):
             for itm in cat.get("items", []):
@@ -306,9 +337,9 @@ def get_jewelry_recommendations(budget_input: JewelryBudgetInput, image_path: Op
     try:
         if image_path and os.path.exists(image_path):
             img = Image.open(image_path)
-            response = model.generate_content([prompt, img])
+            response = generate_ai_content([prompt, img])
         else:
-            response = model.generate_content(prompt)
+            response = generate_ai_content(prompt)
         result = extract_json_from_response(response.text)
         for itm in result.get("jewelry_recommendations", []):
             term = urllib.parse.quote_plus(itm.get("search_term") or itm.get("item_type", ""))
