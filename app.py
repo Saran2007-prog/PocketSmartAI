@@ -34,7 +34,7 @@ API_KEY = os.getenv("GOOGLE_API_KEY") or os.getenv("GEMINI_API_KEY")
 if not API_KEY:
     raise ValueError("No Google API Key found in environment variables. Please set GOOGLE_API_KEY or GEMINI_API_KEY in your .env file.")
 genai.configure(api_key=API_KEY)
-model = genai.GenerativeModel("gemini-1.5-flash")
+model = genai.GenerativeModel("gemini-2.5-flash")
 
 # FastAPI App Initialization
 app = FastAPI(title="PocketSmart: AI Budget Planner")
