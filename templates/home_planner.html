@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Interior Planner - PocketSmart AI</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            200: '#a7f3d0',
+                            300: '#6ee7b7',
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#022c22',
+                            cyber: '#00ff87',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen flex flex-col text-slate-800 antialiased selection:bg-emerald-500 selection:text-white">
+
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand & Breadcrumb -->
+            <div class="flex items-center gap-3">
+                <a href="/dashboard" class="flex items-center gap-2 group">
+                    <div class="w-9 h-9 rounded-xl bg-emerald-600 flex items-center justify-center text-white shadow-md shadow-emerald-200 group-hover:scale-105 transition-transform duration-200">
+                        <i data-lucide="sparkles" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-lg font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">PocketSmart <span class="text-emerald-600">AI</span></span>
+                </a>
+                <span class="text-slate-300">/</span>
+                <span class="text-sm font-semibold text-slate-600 flex items-center gap-1.5">
+                    <i data-lucide="house" class="w-4 h-4 text-emerald-600"></i>
+                    Home Interior Planner
+                </span>
+            </div>
+
+            <!-- Navigation Links -->
+            <div class="flex items-center gap-4">
+                <a href="/dashboard" class="text-xs sm:text-sm font-semibold text-slate-600 hover:text-emerald-600 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5">
+                    <i data-lucide="layout-grid" class="w-4 h-4"></i>
+                    <span class="hidden sm:inline">Dashboard</span>
+                </a>
+                <a href="/history" class="text-xs sm:text-sm font-semibold text-slate-600 hover:text-emerald-600 px-3 py-1.5 rounded-lg transition-colors flex items-center gap-1.5">
+                    <i data-lucide="clock" class="w-4 h-4"></i>
+                    <span class="hidden sm:inline">History</span>
+                </a>
+                <button 
+                    onclick="handleLogout()" 
+                    class="px-3 py-1.5 text-xs font-semibold text-rose-600 bg-rose-50 hover:bg-rose-100 rounded-lg border border-rose-200 transition-colors flex items-center gap-1.5"
+                >
+                    <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+                    <span class="hidden sm:inline">Logout</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full">
+        <!-- Header Title Banner -->
+        <div class="mb-8">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-bold text-emerald-800 uppercase tracking-wider mb-2">
+                <i data-lucide="house" class="w-3.5 h-3.5"></i>
+                Cyber Interior Blueprint
+            </div>
+            <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight">Home Interior Budget Planner</h1>
+            <p class="mt-1 text-sm text-slate-500">Configure your target rooms and fixtures. Gemini 1.5 Flash will generate a balanced itemized purchase plan.</p>
+        </div>
+
+        <!-- Form and Results Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            
+            <!-- Left Column: Input Form (5 cols on lg) -->
+            <div class="lg:col-span-5 bg-white rounded-2xl border border-slate-200/80 shadow-lg p-6 sm:p-8 sticky top-28">
+                <div class="flex items-center justify-between pb-4 mb-6 border-b border-slate-100">
+                    <h2 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                        <i data-lucide="sliders" class="w-4 h-4 text-emerald-600"></i>
+                        Configuration Parameters
+                    </h2>
+                    <span class="text-xs text-slate-400 font-medium">* Required</span>
+                </div>
+
+                <!-- Error Banner -->
+                <div id="formError" class="hidden mb-5 p-3.5 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-xs flex items-start gap-2.5">
+                    <i data-lucide="alert-circle" class="w-4 h-4 text-rose-500 shrink-0 mt-0.5"></i>
+                    <span id="formErrorText">Please fill in all required fields.</span>
+                </div>
+
+                <form id="homePlannerForm" onsubmit="generateHomeBudget(event)" class="space-y-5">
+                    <!-- Total Budget -->
+                    <div>
+                        <label for="totalBudget" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                            Total Budget (₹ INR) <span class="text-rose-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500 font-bold text-base">
+                                ₹
+                            </div>
+                            <input 
+                                type="number" 
+                                id="totalBudget" 
+                                name="total_budget" 
+                                required 
+                                min="1000" 
+                                step="500" 
+                                value="50000"
+                                placeholder="50000" 
+                                class="w-full pl-9 pr-4 py-3 bg-slate-50 hover:bg-white focus:bg-white text-slate-900 font-bold text-base rounded-xl border border-slate-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all"
+                            />
+                        </div>
+                        <!-- Quick Budget Chips -->
+                        <div class="flex flex-wrap gap-2 mt-2">
+                            <button type="button" onclick="setBudget(25000)" class="px-2.5 py-1 text-[11px] font-semibold bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700 rounded-lg text-slate-600 transition-colors">₹25k</button>
+                            <button type="button" onclick="setBudget(50000)" class="px-2.5 py-1 text-[11px] font-semibold bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700 rounded-lg text-slate-600 transition-colors">₹50k</button>
+                            <button type="button" onclick="setBudget(100000)" class="px-2.5 py-1 text-[11px] font-semibold bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700 rounded-lg text-slate-600 transition-colors">₹1 Lakh</button>
+                            <button type="button" onclick="setBudget(250000)" class="px-2.5 py-1 text-[11px] font-semibold bg-slate-100 hover:bg-emerald-50 hover:text-emerald-700 rounded-lg text-slate-600 transition-colors">₹2.5 Lakhs</button>
+                        </div>
+                    </div>
+
+                    <!-- Target Rooms Toggles -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                            Target Rooms
+                        </label>
+                        <div class="grid grid-cols-3 gap-3">
+                            <!-- Living Room -->
+                            <label class="relative flex flex-col items-center justify-center p-3 rounded-xl border-2 border-emerald-300 bg-emerald-50/40 cursor-pointer has-[:checked]:border-emerald-600 has-[:checked]:bg-emerald-50 has-[:checked]:text-emerald-950 transition-all text-center">
+                                <input type="checkbox" id="hasLivingRoom" name="has_living_room" checked class="sr-only">
+                                <i data-lucide="sofa" class="w-5 h-5 mb-1 text-emerald-600"></i>
+                                <span class="text-xs font-bold">Living Room</span>
+                            </label>
+                            <!-- Kitchen -->
+                            <label class="relative flex flex-col items-center justify-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer has-[:checked]:border-emerald-600 has-[:checked]:bg-emerald-50 has-[:checked]:text-emerald-950 transition-all text-center">
+                                <input type="checkbox" id="hasKitchen" name="has_kitchen" class="sr-only">
+                                <i data-lucide="utensils" class="w-5 h-5 mb-1 text-slate-600"></i>
+                                <span class="text-xs font-bold">Kitchen</span>
+                            </label>
+                            <!-- Bedroom -->
+                            <label class="relative flex flex-col items-center justify-center p-3 rounded-xl border border-slate-200 bg-slate-50 cursor-pointer has-[:checked]:border-emerald-600 has-[:checked]:bg-emerald-50 has-[:checked]:text-emerald-950 transition-all text-center">
+                                <input type="checkbox" id="hasBedroom" name="has_bedroom" checked class="sr-only">
+                                <i data-lucide="bed" class="w-5 h-5 mb-1 text-emerald-600"></i>
+                                <span class="text-xs font-bold">Bedroom</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Fixtures & Quantities Grid -->
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                            Items & Quantities
+                        </label>
+                        <div class="grid grid-cols-2 gap-4">
+                            <!-- Number of Lights -->
+                            <div>
+                                <label for="numLights" class="block text-[11px] font-semibold text-slate-600 mb-1 flex items-center gap-1">
+                                    <i data-lucide="lightbulb" class="w-3.5 h-3.5 text-amber-500"></i>
+                                    Lights
+                                </label>
+                                <input 
+                                    type="number" 
+                                    id="numLights" 
+                                    name="num_lights" 
+                                    min="0" 
+                                    max="50" 
+                                    value="4" 
+                                    class="w-full px-3 py-2 bg-slate-50 hover:bg-white focus:bg-white text-slate-900 text-sm font-semibold rounded-xl border border-slate-200 focus:border-emerald-600 outline-none transition-all"
+                                />
+                            </div>
+
+                            <!-- Number of Fans -->
+                            <div>
+                                <label for="numFans" class="block text-[11px] font-semibold text-slate-600 mb-1 flex items-center gap-1">
+                                    <i data-lucide="fan" class="w-3.5 h-3.5 text-cyan-500"></i>
+                                    Ceiling Fans
+                                </label>
+                                <input 
+                                    type="number" 
+                                    id="numFans" 
+                                    name="num_fans" 
+                                    min="0" 
+                                    max="20" 
+                                    value="2" 
+                                    class="w-full px-3 py-2 bg-slate-50 hover:bg-white focus:bg-white text-slate-900 text-sm font-semibold rounded-xl border border-slate-200 focus:border-emerald-600 outline-none transition-all"
+                                />
+                            </div>
+
+                            <!-- Furniture Pieces -->
+                            <div>
+                                <label for="numFurniture" class="block text-[11px] font-semibold text-slate-600 mb-1 flex items-center gap-1">
+                                    <i data-lucide="armchair" class="w-3.5 h-3.5 text-emerald-600"></i>
+                                    Furniture Sets
+                                </label>
+                                <input 
+                                    type="number" 
+                                    id="numFurniture" 
+                                    name="num_furniture" 
+                                    min="0" 
+                                    max="30" 
+                                    value="2" 
+                                    class="w-full px-3 py-2 bg-slate-50 hover:bg-white focus:bg-white text-slate-900 text-sm font-semibold rounded-xl border border-slate-200 focus:border-emerald-600 outline-none transition-all"
+                                />
+                            </div>
+
+                            <!-- Dining Tables -->
+                            <div>
+                                <label for="numDiningTables" class="block text-[11px] font-semibold text-slate-600 mb-1 flex items-center gap-1">
+                                    <i data-lucide="coffee" class="w-3.5 h-3.5 text-teal-600"></i>
+                                    Dining Tables
+                                </label>
+                                <input 
+                                    type="number" 
+                                    id="numDiningTables" 
+                                    name="num_dining_tables" 
+                                    min="0" 
+                                    max="5" 
+                                    value="1" 
+                                    class="w-full px-3 py-2 bg-slate-50 hover:bg-white focus:bg-white text-slate-900 text-sm font-semibold rounded-xl border border-slate-200 focus:border-emerald-600 outline-none transition-all"
+                                />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Additional Requirements -->
+                    <div>
+                        <label for="additionalRequirements" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                            Additional Requirements
+                        </label>
+                        <textarea 
+                            id="additionalRequirements" 
+                            name="additional_requirements" 
+                            rows="3" 
+                            placeholder="e.g. Modern minimalist design, warm 3000K lighting, teak wood finish furniture, compact 4-seater dining."
+                            class="w-full px-3.5 py-2.5 bg-slate-50 hover:bg-white focus:bg-white text-slate-900 text-sm rounded-xl border border-slate-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all resize-none"
+                        ></textarea>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button 
+                        type="submit" 
+                        id="generateBtn"
+                        class="w-full py-3.5 px-4 bg-emerald-600 hover:bg-emerald-700 hover:scale-[1.02] active:scale-[0.98] text-white font-bold text-sm rounded-xl shadow-lg shadow-emerald-300/50 transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                    >
+                        <i data-lucide="sparkles" class="w-4 h-4"></i>
+                        <span id="btnText">Generate Interior Plan</span>
+                        <div id="btnSpinner" class="hidden w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Right Column: Results Container (7 cols on lg) -->
+            <div class="lg:col-span-7">
+                <!-- Initial Placeholder / Empty State -->
+                <div id="emptyState" class="bg-white rounded-2xl border border-dashed border-slate-200 p-12 text-center shadow-sm">
+                    <div class="w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-4 border border-emerald-100">
+                        <i data-lucide="home" class="w-8 h-8"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900">No Blueprint Generated Yet</h3>
+                    <p class="text-sm text-slate-500 max-w-md mx-auto mt-2 leading-relaxed">
+                        Configure your budget and required fixtures on the left, then click <strong>"Generate Interior Plan"</strong> to get a real-time Gemini 1.5 Flash itemized recommendation.
+                    </p>
+                </div>
+
+                <!-- Loading State with Shimmer / Spinner -->
+                <div id="loadingState" class="hidden bg-white rounded-2xl border border-slate-200 p-12 text-center shadow-lg">
+                    <div class="w-16 h-16 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-6 relative">
+                        <div class="w-16 h-16 rounded-2xl border-4 border-emerald-600 border-t-transparent animate-spin absolute inset-0"></div>
+                        <i data-lucide="sparkles" class="w-8 h-8 text-emerald-600 animate-pulse"></i>
+                    </div>
+                    <h3 class="text-lg font-bold text-slate-900">Gemini 1.5 Flash is Computing...</h3>
+                    <p class="text-sm text-slate-500 max-w-sm mx-auto mt-2 leading-relaxed">
+                        Balancing your ₹<span id="loadingBudget">50,000</span> budget across lighting, fans, dining, and furniture with store links...
+                    </p>
+                </div>
+
+                <!-- Dynamic Results Presentation -->
+                <div id="resultsContainer" class="hidden space-y-6">
+                    <!-- Top Summary Card with Progress -->
+                    <div class="bg-white rounded-2xl p-6 sm:p-7 border border-slate-200/80 shadow-lg relative overflow-hidden">
+                        <div class="flex flex-wrap items-center justify-between gap-4 mb-5">
+                            <div>
+                                <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
+                                    AI Blueprint Summary
+                                </span>
+                                <h3 class="text-xl font-extrabold text-slate-900 mt-2">Budget Utilization</h3>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <button onclick="window.print()" class="p-2 text-slate-500 hover:text-slate-900 hover:bg-slate-100 rounded-lg text-xs font-semibold flex items-center gap-1 transition-colors" title="Print Plan">
+                                    <i data-lucide="printer" class="w-4 h-4"></i>
+                                    <span>Print</span>
+                                </button>
+                                <a href="/history" class="p-2 text-emerald-600 hover:bg-emerald-50 rounded-lg text-xs font-semibold flex items-center gap-1 transition-colors">
+                                    <i data-lucide="history" class="w-4 h-4"></i>
+                                    <span>History</span>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- 3 Stat Metrics -->
+                        <div class="grid grid-cols-3 gap-4 p-4 rounded-xl bg-slate-50 border border-slate-100 text-center">
+                            <div>
+                                <span class="text-xs text-slate-500 font-medium">Total Budget</span>
+                                <div id="resTotalBudget" class="text-base sm:text-xl font-extrabold text-slate-900 mt-1">₹0</div>
+                            </div>
+                            <div class="border-x border-slate-200">
+                                <span class="text-xs text-slate-500 font-medium">Allocated</span>
+                                <div id="resAllocatedBudget" class="text-base sm:text-xl font-extrabold text-emerald-600 mt-1">₹0</div>
+                            </div>
+                            <div>
+                                <span class="text-xs text-slate-500 font-medium">Remaining</span>
+                                <div id="resRemainingBudget" class="text-base sm:text-xl font-extrabold text-teal-600 mt-1">₹0</div>
+                            </div>
+                        </div>
+
+                        <!-- Progress Bar (Cyber Green Gradient) -->
+                        <div class="mt-4">
+                            <div class="flex justify-between text-xs text-slate-500 mb-1 font-medium">
+                                <span>Budget Consumption</span>
+                                <span id="resPercent">0%</span>
+                            </div>
+                            <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
+                                <div id="resProgressBar" class="bg-gradient-to-r from-emerald-500 to-teal-600 h-full rounded-full transition-all duration-700" style="width: 0%"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Categories & Items Container -->
+                    <div id="categoriesList" class="space-y-6">
+                        <!-- Injected via JavaScript -->
+                    </div>
+
+                    <!-- Additional Suggestions Card -->
+                    <div id="suggestionsCard" class="bg-gradient-to-br from-emerald-50/60 to-teal-50/60 rounded-2xl p-6 border border-emerald-200/80 shadow-sm">
+                        <div class="flex items-center gap-2 mb-3 text-emerald-950 font-bold text-sm">
+                            <i data-lucide="sparkles" class="w-4 h-4 text-emerald-600"></i>
+                            Interior Designer Insights & Recommendations
+                        </div>
+                        <ul id="suggestionsList" class="space-y-2 text-xs sm:text-sm text-slate-700">
+                            <!-- Injected via JavaScript -->
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200/80 py-6 mt-12 text-center text-xs text-slate-400">
+        PocketSmart AI &bull; Interior Budget Planner &bull; Powered by Google Gemini 1.5 Flash
+    </footer>
+
+    <!-- Logic -->
+    <script>
+        lucide.createIcons();
+
+        function setBudget(amount) {
+            document.getElementById('totalBudget').value = amount;
+        }
+
+        async function handleLogout() {
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('username');
+            try {
+                await fetch('/logout', { method: 'POST' });
+            } catch(e) {}
+            window.location.href = '/login';
+        }
+
+        function formatCurrency(val) {
+            return '₹' + Number(val || 0).toLocaleString('en-IN', { maximumFractionDigits: 0 });
+        }
+
+        async function generateHomeBudget(event) {
+            event.preventDefault();
+
+            const formError = document.getElementById('formError');
+            const formErrorText = document.getElementById('formErrorText');
+            formError.classList.add('hidden');
+
+            const totalBudget = parseFloat(document.getElementById('totalBudget').value);
+            const numLights = parseInt(document.getElementById('numLights').value) || 0;
+            const numFans = parseInt(document.getElementById('numFans').value) || 0;
+            const numFurniture = parseInt(document.getElementById('numFurniture').value) || 0;
+            const numDiningTables = parseInt(document.getElementById('numDiningTables').value) || 0;
+            const hasLivingRoom = document.getElementById('hasLivingRoom').checked;
+            const hasKitchen = document.getElementById('hasKitchen').checked;
+            const hasBedroom = document.getElementById('hasBedroom').checked;
+            const additionalRequirements = document.getElementById('additionalRequirements').value.trim() || 'None';
+
+            if (isNaN(totalBudget) || totalBudget <= 0) {
+                formErrorText.textContent = 'Please enter a valid positive total budget.';
+                formError.classList.remove('hidden');
+                return;
+            }
+
+            const generateBtn = document.getElementById('generateBtn');
+            const btnText = document.getElementById('btnText');
+            const btnSpinner = document.getElementById('btnSpinner');
+            const emptyState = document.getElementById('emptyState');
+            const loadingState = document.getElementById('loadingState');
+            const resultsContainer = document.getElementById('resultsContainer');
+            const loadingBudget = document.getElementById('loadingBudget');
+
+            loadingBudget.textContent = totalBudget.toLocaleString('en-IN');
+            generateBtn.disabled = true;
+            btnText.textContent = 'Designing Blueprint...';
+            btnSpinner.classList.remove('hidden');
+            emptyState.classList.add('hidden');
+            resultsContainer.classList.add('hidden');
+            loadingState.classList.remove('hidden');
+
+            const payload = {
+                total_budget: totalBudget,
+                num_lights: numLights,
+                num_fans: numFans,
+                num_furniture: numFurniture,
+                num_dining_tables: numDiningTables,
+                has_living_room: hasLivingRoom,
+                has_kitchen: hasKitchen,
+                has_bedroom: hasBedroom,
+                additional_requirements: additionalRequirements
+            };
+
+            try {
+                const token = localStorage.getItem('access_token');
+                const headers = {
+                    'Content-Type': 'application/json'
+                };
+                if (token) {
+                    headers['Authorization'] = `Bearer ${token}`;
+                }
+
+                const response = await fetch('/api/home-planner', {
+                    method: 'POST',
+                    headers: headers,
+                    credentials: 'include',
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.status === 401) {
+                    window.location.href = '/login?expired=1';
+                    return;
+                }
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.detail || 'Failed to generate interior recommendations.');
+                }
+
+                renderResults(data, totalBudget);
+
+            } catch (err) {
+                console.error('Home planner error:', err);
+                formErrorText.textContent = err.message || 'An unexpected error occurred while communicating with Gemini AI.';
+                formError.classList.remove('hidden');
+                loadingState.classList.add('hidden');
+                emptyState.classList.remove('hidden');
+            } finally {
+                generateBtn.disabled = false;
+                btnText.textContent = 'Generate Interior Plan';
+                btnSpinner.classList.add('hidden');
+            }
+        }
+
+        function renderResults(data, requestedBudget) {
+            const loadingState = document.getElementById('loadingState');
+            const resultsContainer = document.getElementById('resultsContainer');
+            const resTotalBudget = document.getElementById('resTotalBudget');
+            const resAllocatedBudget = document.getElementById('resAllocatedBudget');
+            const resRemainingBudget = document.getElementById('resRemainingBudget');
+            const resProgressBar = document.getElementById('resProgressBar');
+            const resPercent = document.getElementById('resPercent');
+            const categoriesList = document.getElementById('categoriesList');
+            const suggestionsList = document.getElementById('suggestionsList');
+
+            const total = data.total_budget || requestedBudget;
+            const remaining = data.remaining_budget !== undefined ? data.remaining_budget : 0;
+            const allocated = Math.max(0, total - remaining);
+            const percentUsed = Math.min(100, Math.round((allocated / total) * 100)) || 0;
+
+            resTotalBudget.textContent = formatCurrency(total);
+            resAllocatedBudget.textContent = formatCurrency(allocated);
+            resRemainingBudget.textContent = formatCurrency(remaining);
+            resProgressBar.style.width = `${percentUsed}%`;
+            resPercent.textContent = `${percentUsed}% Used`;
+
+            categoriesList.innerHTML = '';
+
+            const breakdowns = data.budget_breakdown || [];
+            if (breakdowns.length === 0) {
+                categoriesList.innerHTML = `
+                    <div class="p-6 bg-white rounded-2xl border border-slate-200 text-center text-sm text-slate-500">
+                        No specific item categories returned. Please try adjusting your parameters.
+                    </div>
+                `;
+            } else {
+                breakdowns.forEach(cat => {
+                    const catCard = document.createElement('div');
+                    catCard.className = 'bg-white rounded-2xl border border-slate-200/80 shadow-md p-6';
+
+                    let itemsHtml = '';
+                    (cat.items || []).forEach(item => {
+                        const links = item.shopping_links || {};
+                        let linksHtml = '';
+
+                        if (links.amazon) {
+                            linksHtml += `
+                                <a href="${links.amazon}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold bg-amber-50 text-amber-800 hover:bg-amber-100 border border-amber-200/60 transition-colors">
+                                    <i data-lucide="shopping-bag" class="w-3.5 h-3.5 text-amber-600"></i>
+                                    Amazon
+                                </a>
+                            `;
+                        }
+                        if (links.flipkart) {
+                            linksHtml += `
+                                <a href="${links.flipkart}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold bg-blue-50 text-blue-800 hover:bg-blue-100 border border-blue-200/60 transition-colors">
+                                    <i data-lucide="external-link" class="w-3.5 h-3.5 text-blue-600"></i>
+                                    Flipkart
+                                </a>
+                            `;
+                        }
+                        if (links.ikea) {
+                            linksHtml += `
+                                <a href="${links.ikea}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-lg text-xs font-bold bg-yellow-50 text-yellow-900 hover:bg-yellow-100 border border-yellow-300/60 transition-colors">
+                                    <i data-lucide="tag" class="w-3.5 h-3.5 text-yellow-700"></i>
+                                    IKEA
+                                </a>
+                            `;
+                        }
+
+                        itemsHtml += `
+                            <div class="p-4 rounded-xl bg-slate-50 border border-slate-200/70 hover:border-emerald-300 hover:bg-white transition-all">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+                                    <div>
+                                        <div class="text-sm font-bold text-slate-900">${item.name || 'Recommended Fixture'}</div>
+                                        <p class="text-xs text-slate-500 mt-0.5 leading-relaxed">${item.description || ''}</p>
+                                    </div>
+                                    <div class="text-right sm:shrink-0">
+                                        <div class="text-sm font-extrabold text-emerald-600">${formatCurrency(item.estimated_price)}</div>
+                                        <div class="text-[11px] text-slate-400 font-medium">Qty: ${item.quantity || 1}</div>
+                                    </div>
+                                </div>
+                                <div class="mt-3 pt-3 border-t border-slate-200/60 flex flex-wrap items-center gap-2">
+                                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mr-1">Buy On:</span>
+                                    ${linksHtml || '<span class="text-xs text-slate-400">Search online</span>'}
+                                </div>
+                            </div>
+                        `;
+                    });
+
+                    catCard.innerHTML = `
+                        <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-100">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold text-sm">
+                                    <i data-lucide="layers" class="w-4 h-4"></i>
+                                </div>
+                                <h4 class="text-base font-bold text-slate-900">${cat.category || 'Category'}</h4>
+                            </div>
+                            <span class="text-xs font-extrabold text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+                                Allocation: ${formatCurrency(cat.allocation)}
+                            </span>
+                        </div>
+                        <div class="space-y-3">
+                            ${itemsHtml}
+                        </div>
+                    `;
+
+                    categoriesList.appendChild(catCard);
+                });
+            }
+
+            // Suggestions List
+            suggestionsList.innerHTML = '';
+            const suggestions = data.additional_suggestions || [];
+            if (suggestions.length === 0) {
+                document.getElementById('suggestionsCard').classList.add('hidden');
+            } else {
+                document.getElementById('suggestionsCard').classList.remove('hidden');
+                suggestions.forEach(sug => {
+                    const li = document.createElement('li');
+                    li.className = 'flex items-start gap-2';
+                    li.innerHTML = `
+                        <i data-lucide="check" class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5"></i>
+                        <span>${sug}</span>
+                    `;
+                    suggestionsList.appendChild(li);
+                });
+            }
+
+            loadingState.classList.add('hidden');
+            resultsContainer.classList.remove('hidden');
+            lucide.createIcons();
+
+            if (window.innerWidth < 1024) {
+                resultsContainer.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    </script>
+</body>
+</html>

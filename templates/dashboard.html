@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - PocketSmart AI</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            200: '#a7f3d0',
+                            300: '#6ee7b7',
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#022c22',
+                            cyber: '#00ff87',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen flex flex-col text-slate-800 antialiased selection:bg-emerald-500 selection:text-white">
+
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-50 bg-white/90 backdrop-blur-md border-b border-slate-100 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand -->
+            <a href="/dashboard" class="flex items-center gap-3 group">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-600 via-teal-600 to-emerald-500 flex items-center justify-center text-white shadow-md shadow-emerald-200 group-hover:scale-105 transition-transform duration-200">
+                    <i data-lucide="sparkles" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <span class="text-xl font-bold tracking-tight text-slate-900 group-hover:text-emerald-600 transition-colors">PocketSmart <span class="text-emerald-600">AI</span></span>
+                    <span class="hidden sm:inline-block text-[11px] font-semibold text-emerald-800 bg-emerald-50 px-2 py-0.5 rounded-full ml-2 border border-emerald-200">Cyber Hub</span>
+                </div>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-600">
+                <a href="/dashboard" class="text-emerald-700 font-bold flex items-center gap-1.5 px-3 py-1.5 bg-emerald-50/80 rounded-lg border border-emerald-100">
+                    <i data-lucide="layout-grid" class="w-4 h-4 text-emerald-600"></i>
+                    Dashboard
+                </a>
+                <a href="/history" class="hover:text-emerald-600 flex items-center gap-1.5 px-3 py-1.5 rounded-lg transition-colors">
+                    <i data-lucide="clock" class="w-4 h-4"></i>
+                    Recommendation History
+                </a>
+            </nav>
+
+            <!-- User Menu & Logout -->
+            <div class="flex items-center gap-4">
+                <div class="hidden sm:flex items-center gap-2 text-right">
+                    <div class="w-9 h-9 rounded-full bg-gradient-to-tr from-emerald-600 to-teal-500 text-white font-bold text-sm flex items-center justify-center shadow-sm">
+                        <span id="userInitial">U</span>
+                    </div>
+                    <div>
+                        <div id="displayUsername" class="text-xs font-bold text-slate-900 leading-none">
+                            {% if user %}{{ user.full_name or user.username }}{% else %}User{% endif %}
+                        </div>
+                        <div class="text-[10px] text-emerald-600 font-medium mt-0.5">Gemini 1.5 Active</div>
+                    </div>
+                </div>
+
+                <!-- Logout Button -->
+                <button 
+                    onclick="handleLogout()" 
+                    class="px-3.5 py-2 text-xs sm:text-sm font-semibold text-rose-600 bg-rose-50 hover:bg-rose-100/80 hover:text-rose-700 rounded-lg border border-rose-200 transition-all duration-200 flex items-center gap-1.5"
+                    title="Log out of PocketSmart AI"
+                >
+                    <i data-lucide="log-out" class="w-4 h-4"></i>
+                    <span class="hidden sm:inline">Logout</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 w-full">
+        <!-- Hero Welcome Header (Cyber Aesthetic) -->
+        <div class="bg-gradient-to-r from-slate-950 via-emerald-950 to-teal-950 rounded-3xl p-8 sm:p-10 text-white shadow-xl shadow-emerald-950/20 mb-10 relative overflow-hidden border border-emerald-800/40">
+            <div class="absolute -right-12 -top-12 w-64 h-64 bg-emerald-500/15 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -left-12 -bottom-12 w-64 h-64 bg-teal-500/15 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="relative z-10 max-w-3xl">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/20 backdrop-blur-md border border-emerald-400/30 text-xs font-semibold text-emerald-300 mb-4">
+                    <i data-lucide="sparkles" class="w-3.5 h-3.5 text-emerald-400"></i>
+                    Cyber Green AI Budget Intelligence
+                </div>
+                <h1 class="text-3xl sm:text-4xl font-extrabold tracking-tight">
+                    Welcome back, <span class="text-emerald-300" id="heroName">{% if user %}{{ user.full_name or user.username }}{% else %}Explorer{% endif %}</span>!
+                </h1>
+                <p class="mt-3 text-slate-300 text-sm sm:text-base font-normal leading-relaxed">
+                    Select an AI planner below to generate real-time budgets with itemized allocations and verified store shopping links.
+                </p>
+
+                <!-- Quick Action Bar -->
+                <div class="mt-6 flex flex-wrap items-center gap-4 text-xs font-semibold">
+                    <div class="flex items-center gap-2 bg-white/10 px-3 py-1.5 rounded-lg border border-white/10">
+                        <i data-lucide="cpu" class="w-4 h-4 text-emerald-400"></i>
+                        <span>Model: Gemini 1.5 Flash</span>
+                    </div>
+                    <div class="flex items-center gap-2 bg-white/10 px-3 py-1.5 rounded-lg border border-white/10">
+                        <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i>
+                        <span>Live Product Link Sync</span>
+                    </div>
+                    <a href="/history" class="text-emerald-300 hover:text-white underline flex items-center gap-1">
+                        <span>Past Blueprints</span>
+                        <i data-lucide="arrow-right" class="w-3 h-3"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3-Column Grid for the Three Planners -->
+        <div class="mb-12">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">AI Planning Suites</h2>
+                    <p class="text-xs sm:text-sm text-slate-500 mt-1">Choose a dedicated planner tailored to your budget project</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Card 1: Home Interior Planner -->
+                <div class="bg-white rounded-2xl p-7 border border-slate-200/80 shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 flex flex-col justify-between group relative overflow-hidden">
+                    <div class="absolute top-0 left-0 right-0 h-1.5 bg-emerald-600 group-hover:h-2 transition-all"></div>
+                    <div>
+                        <!-- Icon & Badge -->
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white flex items-center justify-center shadow-sm transition-colors duration-200">
+                                <i data-lucide="house" class="w-7 h-7"></i>
+                            </div>
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
+                                Rooms & Decor
+                            </span>
+                        </div>
+
+                        <h3 class="text-xl font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">
+                            Home Interior Planner
+                        </h3>
+                        <p class="mt-2 text-sm text-slate-600 leading-relaxed">
+                            Organize lighting fixtures, ceiling fans, furniture sets, and dining tables across living rooms, kitchens, and bedrooms within your budget cap.
+                        </p>
+
+                        <!-- Highlights -->
+                        <div class="mt-6 pt-5 border-t border-slate-100 space-y-2.5 text-xs text-slate-600 font-medium">
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+                                <span>Itemized room cost allocation</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+                                <span>Amazon, Flipkart & IKEA links</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+                                <span>Remaining budget calculations</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CTA -->
+                    <div class="mt-8 pt-4">
+                        <a 
+                            href="/home-planner" 
+                            class="w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold rounded-xl shadow-md shadow-emerald-200 transition-all duration-200 flex items-center justify-center gap-2 group-hover:shadow-lg"
+                        >
+                            <span>Start Planning</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Card 2: Party Budget Planner -->
+                <div class="bg-white rounded-2xl p-7 border border-slate-200/80 shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 flex flex-col justify-between group relative overflow-hidden">
+                    <div class="absolute top-0 left-0 right-0 h-1.5 bg-teal-600 group-hover:h-2 transition-all"></div>
+                    <div>
+                        <!-- Icon & Badge -->
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="w-14 h-14 rounded-2xl bg-teal-50 text-teal-600 group-hover:bg-teal-600 group-hover:text-white flex items-center justify-center shadow-sm transition-colors duration-200">
+                                <i data-lucide="party-popper" class="w-7 h-7"></i>
+                            </div>
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-teal-800 bg-teal-50 px-2.5 py-1 rounded-full border border-teal-200">
+                                Events
+                            </span>
+                        </div>
+
+                        <h3 class="text-xl font-bold text-slate-900 group-hover:text-teal-600 transition-colors">
+                            Party Budget Planner
+                        </h3>
+                        <p class="mt-2 text-sm text-slate-600 leading-relaxed">
+                            Coordinate birthdays, weddings, or weekend bashes. AI determines catering quotas, decor arrangements, entertainment costs, and venue options.
+                        </p>
+
+                        <!-- Highlights -->
+                        <div class="mt-6 pt-5 border-t border-slate-100 space-y-2.5 text-xs text-slate-600 font-medium">
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-teal-600 shrink-0"></i>
+                                <span>Guest count & per-head food costs</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-teal-600 shrink-0"></i>
+                                <span>Venue links (Google, Booking, OYO)</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-teal-600 shrink-0"></i>
+                                <span>Swiggy & Zomato quick delivery links</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CTA -->
+                    <div class="mt-8 pt-4">
+                        <a 
+                            href="/party-planner" 
+                            class="w-full py-3 px-4 bg-teal-600 hover:bg-teal-700 text-white text-sm font-bold rounded-xl shadow-md shadow-teal-200 transition-all duration-200 flex items-center justify-center gap-2 group-hover:shadow-lg"
+                        >
+                            <span>Start Planning</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Card 3: Jewelry Stylist -->
+                <div class="bg-white rounded-2xl p-7 border border-slate-200/80 shadow-lg hover:shadow-2xl hover:scale-105 transition-all duration-300 flex flex-col justify-between group relative overflow-hidden">
+                    <div class="absolute top-0 left-0 right-0 h-1.5 bg-emerald-500 group-hover:h-2 transition-all"></div>
+                    <div>
+                        <!-- Icon & Badge -->
+                        <div class="flex items-center justify-between mb-6">
+                            <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-700 group-hover:bg-emerald-600 group-hover:text-white flex items-center justify-center shadow-sm transition-colors duration-200">
+                                <i data-lucide="gem" class="w-7 h-7"></i>
+                            </div>
+                            <span class="text-[11px] font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-2.5 py-1 rounded-full border border-emerald-200">
+                                Vision AI
+                            </span>
+                        </div>
+
+                        <h3 class="text-xl font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">
+                            Jewelry Stylist
+                        </h3>
+                        <p class="mt-2 text-sm text-slate-600 leading-relaxed">
+                            Upload a photo of your outfit and specify your budget. Multimodal vision evaluates colors, necklines, and style to recommend jewelry accessories.
+                        </p>
+
+                        <!-- Highlights -->
+                        <div class="mt-6 pt-5 border-t border-slate-100 space-y-2.5 text-xs text-slate-600 font-medium">
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+                                <span>Outfit image color & tone analysis</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+                                <span>Tanishq, CaratLane & Meesho links</span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                <i data-lucide="check-circle-2" class="w-4 h-4 text-emerald-600 shrink-0"></i>
+                                <span>Curated styling & occasion advice</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CTA -->
+                    <div class="mt-8 pt-4">
+                        <a 
+                            href="/jewelry-planner" 
+                            class="w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-bold rounded-xl shadow-md shadow-emerald-200 transition-all duration-200 flex items-center justify-center gap-2 group-hover:shadow-lg"
+                        >
+                            <span>Start Planning</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recommendation History Quick Link Banner -->
+        <div class="bg-white rounded-2xl p-6 sm:p-8 border border-slate-200/80 shadow-md hover:shadow-lg transition-all flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-4">
+                <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center shrink-0">
+                    <i data-lucide="history" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h3 class="text-lg font-bold text-slate-900">Recommendation History</h3>
+                    <p class="text-sm text-slate-500">Access and review all your previously generated AI plans, breakdown summaries, and shopping lists.</p>
+                </div>
+            </div>
+            <a 
+                href="/history" 
+                class="shrink-0 px-6 py-3 bg-slate-900 hover:bg-emerald-600 text-white text-sm font-bold rounded-xl shadow-md hover:scale-105 transition-all duration-200 flex items-center gap-2"
+            >
+                <span>View Recommendation History</span>
+                <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </a>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200/80 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
+            <div class="flex items-center gap-2">
+                <i data-lucide="sparkles" class="w-3.5 h-3.5 text-emerald-600"></i>
+                <span>PocketSmart AI &bull; Cyber Green Intelligence</span>
+            </div>
+            <p>&copy; 2026 PocketSmart AI. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Logic -->
+    <script>
+        lucide.createIcons();
+
+        const localUser = localStorage.getItem('username');
+        if (localUser) {
+            const initialEl = document.getElementById('userInitial');
+            const displayEl = document.getElementById('displayUsername');
+            const heroEl = document.getElementById('heroName');
+            if (initialEl) initialEl.textContent = localUser.charAt(0).toUpperCase();
+            if (displayEl && displayEl.textContent.trim() === 'User') displayEl.textContent = localUser;
+            if (heroEl && heroEl.textContent.trim() === 'Explorer') heroEl.textContent = localUser;
+        }
+
+        async function handleLogout() {
+            localStorage.removeItem('access_token');
+            localStorage.removeItem('username');
+            try {
+                await fetch('/logout', { method: 'POST' });
+            } catch (err) {
+                console.error('Logout error:', err);
+            }
+            window.location.href = '/login';
+        }
+    </script>
+</body>
+</html>

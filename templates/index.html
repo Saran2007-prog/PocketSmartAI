@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PocketSmart AI - Smarter Budgets, Better Choices</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            200: '#a7f3d0',
+                            300: '#6ee7b7',
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#022c22',
+                            cyber: '#00ff87',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col selection:bg-emerald-500 selection:text-white">
+
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-50 bg-white/85 backdrop-blur-md border-b border-slate-100 shadow-sm transition-all duration-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo -->
+            <a href="/" class="flex items-center gap-3 group">
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-emerald-600 via-teal-600 to-emerald-500 flex items-center justify-center text-white shadow-md shadow-emerald-200 group-hover:scale-105 transition-transform duration-200">
+                    <i data-lucide="sparkles" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <span class="text-xl font-bold tracking-tight text-slate-900 group-hover:text-emerald-600 transition-colors">PocketSmart <span class="text-emerald-600 font-extrabold">AI</span></span>
+                    <span class="hidden sm:block text-[11px] font-medium text-slate-400 tracking-wider uppercase">Cyber Smart Budgeting</span>
+                </div>
+            </a>
+
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center gap-8 text-sm font-semibold text-slate-600">
+                <a href="#planners" class="hover:text-emerald-600 transition-colors">AI Planners</a>
+                <a href="#how-it-works" class="hover:text-emerald-600 transition-colors">How it Works</a>
+                <a href="#features" class="hover:text-emerald-600 transition-colors">Features</a>
+            </nav>
+
+            <!-- CTA Auth Buttons -->
+            <div class="flex items-center gap-3">
+                <a href="/login" class="px-5 py-2.5 text-sm font-semibold text-slate-700 hover:text-emerald-600 hover:bg-slate-100 rounded-lg transition-all duration-200">
+                    Log In
+                </a>
+                <a href="/register" class="px-5 py-2.5 text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-700 hover:scale-105 rounded-lg shadow-md shadow-emerald-200 transition-all duration-200 flex items-center gap-2">
+                    <span>Sign Up</span>
+                    <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="flex-grow">
+        <!-- Hero Section -->
+        <section class="relative overflow-hidden pt-16 pb-24 lg:pt-24 lg:pb-32 bg-gradient-to-b from-white via-emerald-50/25 to-slate-50">
+            <!-- Decorative Cyber Glow -->
+            <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-gradient-to-tr from-emerald-300/30 to-teal-300/30 blur-[120px] rounded-full pointer-events-none"></div>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+                <!-- Pill Badge -->
+                <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-emerald-50 border border-emerald-200/80 text-emerald-800 text-xs font-semibold uppercase tracking-wider mb-6 shadow-sm">
+                    <i data-lucide="zap" class="w-3.5 h-3.5 text-emerald-600 fill-emerald-600"></i>
+                    Powered by Google Gemini 1.5 Flash
+                </div>
+
+                <!-- Headline -->
+                <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-slate-900 tracking-tight max-w-4xl mx-auto leading-tight sm:leading-none">
+                    Smarter Budgets, <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-800">Better Choices.</span>
+                </h1>
+
+                <!-- Subheadline -->
+                <p class="mt-6 text-lg sm:text-xl text-slate-600 max-w-2xl mx-auto font-normal leading-relaxed">
+                    Stop guessing costs. PocketSmart AI optimizes your budget with itemized allocations, intelligent styling, and instant shopping links for homes, parties, and jewelry.
+                </p>
+
+                <!-- Primary CTAs -->
+                <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="/register" class="w-full sm:w-auto px-8 py-4 text-base font-semibold text-white bg-emerald-600 hover:bg-emerald-700 hover:scale-105 active:scale-95 rounded-xl shadow-lg shadow-emerald-300/50 transition-all duration-200 flex items-center justify-center gap-2">
+                        <span>Get Started Free</span>
+                        <i data-lucide="sparkles" class="w-5 h-5"></i>
+                    </a>
+                    <a href="/login" class="w-full sm:w-auto px-8 py-4 text-base font-semibold text-slate-700 bg-white hover:bg-slate-50 hover:text-emerald-600 border border-slate-200 hover:border-emerald-300 rounded-xl shadow-sm hover:shadow-md transition-all duration-200 flex items-center justify-center gap-2">
+                        <span>Sign In to Dashboard</span>
+                        <i data-lucide="log-in" class="w-5 h-5 text-slate-400"></i>
+                    </a>
+                </div>
+
+                <!-- Trust / Value Highlights -->
+                <div class="mt-14 pt-10 border-t border-slate-200/60 max-w-4xl mx-auto grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+                    <div>
+                        <div class="text-2xl lg:text-3xl font-extrabold text-emerald-600">100%</div>
+                        <div class="text-xs font-medium text-slate-500 mt-1 uppercase tracking-wide">Personalized Plans</div>
+                    </div>
+                    <div>
+                        <div class="text-2xl lg:text-3xl font-extrabold text-emerald-600">&lt; 3 Sec</div>
+                        <div class="text-xs font-medium text-slate-500 mt-1 uppercase tracking-wide">Gemini 1.5 Speed</div>
+                    </div>
+                    <div>
+                        <div class="text-2xl lg:text-3xl font-extrabold text-emerald-600">3-in-1</div>
+                        <div class="text-xs font-medium text-slate-500 mt-1 uppercase tracking-wide">Specialized Planners</div>
+                    </div>
+                    <div>
+                        <div class="text-2xl lg:text-3xl font-extrabold text-emerald-600">Direct</div>
+                        <div class="text-xs font-medium text-slate-500 mt-1 uppercase tracking-wide">Store Shopping Links</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Planners Section -->
+        <section id="planners" class="py-20 bg-white border-y border-slate-100">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-xs font-bold text-emerald-600 tracking-widest uppercase">Three Intelligent Modules</h2>
+                    <p class="mt-2 text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">Tailored Planning for Every Occasion</p>
+                    <p class="mt-3 text-slate-600 text-base sm:text-lg">Explore how our specialized AI models turn your budget into clear, actionable purchase decisions.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Planner 1: Home Interior -->
+                    <div class="bg-slate-50 rounded-2xl p-8 border border-slate-200/80 shadow-sm hover:shadow-xl hover:scale-105 hover:bg-white hover:border-emerald-300 transition-all duration-300 flex flex-col justify-between group">
+                        <div>
+                            <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mb-6 group-hover:bg-emerald-600 group-hover:text-white transition-colors duration-300 shadow-sm">
+                                <i data-lucide="home" class="w-7 h-7"></i>
+                            </div>
+                            <span class="px-2.5 py-1 text-xs font-semibold bg-emerald-50 text-emerald-800 rounded-md border border-emerald-200 uppercase tracking-wider">Home Interior</span>
+                            <h3 class="mt-4 text-xl font-bold text-slate-900">Home Interior Planner</h3>
+                            <p class="mt-3 text-sm text-slate-600 leading-relaxed">
+                                Plan room furnishings, lighting fixtures, and dining essentials within your target budget. Receive detailed item pricing and verified links on Amazon, Flipkart, and IKEA.
+                            </p>
+                            <ul class="mt-6 space-y-2 text-xs text-slate-600 font-medium">
+                                <li class="flex items-center gap-2">
+                                    <i data-lucide="check" class="w-4 h-4 text-emerald-600"></i>
+                                    Room-by-room breakdown (Living, Bed, Kitchen)
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i data-lucide="check" class="w-4 h-4 text-emerald-600"></i>
+                                    Light, fan & furniture quantity calculator
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i data-lucide="check" class="w-4 h-4 text-emerald-600"></i>
+                                    Remaining budget safeguards
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="mt-8 pt-6 border-t border-slate-200/70">
+                            <a href="/login" class="text-sm font-semibold text-emerald-600 group-hover:text-emerald-700 flex items-center gap-1.5 hover:underline">
+                                <span>Try Home Planner</span>
+                                <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Planner 2: Party Budget -->
+                    <div class="bg-slate-50 rounded-2xl p-8 border border-slate-200/80 shadow-sm hover:shadow-xl hover:scale-105 hover:bg-white hover:border-teal-300 transition-all duration-300 flex flex-col justify-between group">
+                        <div>
+                            <div class="w-14 h-14 rounded-2xl bg-teal-100 text-teal-700 flex items-center justify-center mb-6 group-hover:bg-teal-600 group-hover:text-white transition-colors duration-300 shadow-sm">
+                                <i data-lucide="party-popper" class="w-7 h-7"></i>
+                            </div>
+                            <span class="px-2.5 py-1 text-xs font-semibold bg-teal-50 text-teal-800 rounded-md border border-teal-200 uppercase tracking-wider">Events & Parties</span>
+                            <h3 class="mt-4 text-xl font-bold text-slate-900">Party Budget Planner</h3>
+                            <p class="mt-3 text-sm text-slate-600 leading-relaxed">
+                                Organize unforgettable parties without blowing your finances. Calculates per-guest catering, themed decor, music/entertainment, and verified venue options.
+                            </p>
+                            <ul class="mt-6 space-y-2 text-xs text-slate-600 font-medium">
+                                <li class="flex items-center gap-2">
+                                    <i data-lucide="check" class="w-4 h-4 text-teal-600"></i>
+                                    Catering, decor & entertainment quotas
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i data-lucide="check" class="w-4 h-4 text-teal-600"></i>
+                                    Venue suggestions with Google & OYO links
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i data-lucide="check" class="w-4 h-4 text-teal-600"></i>
+                                    Swiggy, Zomato & food ordering shortcuts
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="mt-8 pt-6 border-t border-slate-200/70">
+                            <a href="/login" class="text-sm font-semibold text-teal-600 group-hover:text-teal-700 flex items-center gap-1.5 hover:underline">
+                                <span>Try Party Planner</span>
+                                <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </div>
+                    </div>
+
+                    <!-- Planner 3: Jewelry Stylist -->
+                    <div class="bg-slate-50 rounded-2xl p-8 border border-slate-200/80 shadow-sm hover:shadow-xl hover:scale-105 hover:bg-white hover:border-emerald-300 transition-all duration-300 flex flex-col justify-between group">
+                        <div>
+                            <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-800 flex items-center justify-center mb-6 group-hover:bg-emerald-600 group-hover:text-white transition-colors duration-300 shadow-sm">
+                                <i data-lucide="gem" class="w-7 h-7"></i>
+                            </div>
+                            <span class="px-2.5 py-1 text-xs font-semibold bg-emerald-50 text-emerald-800 rounded-md border border-emerald-200 uppercase tracking-wider">AI Fashion Stylist</span>
+                            <h3 class="mt-4 text-xl font-bold text-slate-900">Jewelry Stylist</h3>
+                            <p class="mt-3 text-sm text-slate-600 leading-relaxed">
+                                Upload a photo of your dress or outfit. Multimodal Gemini 1.5 vision analyzes the neckline, palette, and formality to suggest matching jewelry within budget.
+                            </p>
+                            <ul class="mt-6 space-y-2 text-xs text-slate-600 font-medium">
+                                <li class="flex items-center gap-2">
+                                    <i data-lucide="check" class="w-4 h-4 text-emerald-600"></i>
+                                    AI visual outfit color & style breakdown
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i data-lucide="check" class="w-4 h-4 text-emerald-600"></i>
+                                    Tanishq, CaratLane, Meesho & Amazon links
+                                </li>
+                                <li class="flex items-center gap-2">
+                                    <i data-lucide="check" class="w-4 h-4 text-emerald-600"></i>
+                                    Expert accessories styling tips
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="mt-8 pt-6 border-t border-slate-200/70">
+                            <a href="/login" class="text-sm font-semibold text-emerald-600 group-hover:text-emerald-700 flex items-center gap-1.5 hover:underline">
+                                <span>Try Jewelry Stylist</span>
+                                <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- How It Works Section -->
+        <section id="how-it-works" class="py-20 bg-slate-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-2xl mx-auto mb-16">
+                    <span class="text-xs font-bold text-emerald-600 tracking-widest uppercase">Streamlined Experience</span>
+                    <h2 class="mt-2 text-3xl font-extrabold text-slate-900">How PocketSmart Works</h2>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 relative">
+                    <!-- Step 1 -->
+                    <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm relative text-center">
+                        <div class="w-12 h-12 bg-emerald-600 text-white rounded-xl font-bold flex items-center justify-center mx-auto mb-4 text-lg shadow-md shadow-emerald-200">1</div>
+                        <h4 class="text-lg font-bold text-slate-900">Define Your Constraints</h4>
+                        <p class="mt-2 text-sm text-slate-600">Input your total available budget, select your event or room parameters, and optional photos.</p>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm relative text-center">
+                        <div class="w-12 h-12 bg-emerald-600 text-white rounded-xl font-bold flex items-center justify-center mx-auto mb-4 text-lg shadow-md shadow-emerald-200">2</div>
+                        <h4 class="text-lg font-bold text-slate-900">Gemini 1.5 Flash Reasoning</h4>
+                        <p class="mt-2 text-sm text-slate-600">Our AI divides your budget mathematically, verifies product categories, and creates realistic allocations.</p>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="bg-white p-8 rounded-2xl border border-slate-200 shadow-sm relative text-center">
+                        <div class="w-12 h-12 bg-emerald-600 text-white rounded-xl font-bold flex items-center justify-center mx-auto mb-4 text-lg shadow-md shadow-emerald-200">3</div>
+                        <h4 class="text-lg font-bold text-slate-900">Act with Direct Links</h4>
+                        <p class="mt-2 text-sm text-slate-600">Browse itemized cards with one-click direct links to Amazon, Flipkart, Tanishq, IKEA, and Swiggy.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Banner -->
+        <section class="py-16 bg-gradient-to-r from-emerald-800 via-emerald-700 to-teal-800 text-white relative overflow-hidden">
+            <div class="max-w-5xl mx-auto px-4 text-center relative z-10">
+                <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight">Ready to take control of your spending?</h2>
+                <p class="mt-4 text-emerald-100 text-base sm:text-lg max-w-2xl mx-auto">Create your free account today and discover how PocketSmart AI makes financial budgeting effortless.</p>
+                <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <a href="/register" class="w-full sm:w-auto px-8 py-3.5 bg-white text-emerald-800 font-bold rounded-xl shadow-lg hover:bg-emerald-50 hover:scale-105 transition-all duration-200">
+                        Sign Up Now
+                    </a>
+                    <a href="/login" class="w-full sm:w-auto px-8 py-3.5 bg-emerald-900/60 border border-emerald-400 text-white font-semibold rounded-xl hover:bg-emerald-900 transition-all duration-200">
+                        Existing User? Login
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200/80 py-12">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-lg bg-emerald-600 flex items-center justify-center text-white">
+                        <i data-lucide="sparkles" class="w-4 h-4"></i>
+                    </div>
+                    <span class="text-lg font-bold text-slate-900">PocketSmart <span class="text-emerald-600">AI</span></span>
+                    <span class="text-xs text-slate-400 pl-3 border-l border-slate-200">FastAPI & Gemini 1.5</span>
+                </div>
+
+                <div class="flex items-center gap-6 text-sm text-slate-500 font-medium">
+                    <a href="/login" class="hover:text-emerald-600 transition-colors">Sign In</a>
+                    <a href="/register" class="hover:text-emerald-600 transition-colors">Register</a>
+                    <a href="/dashboard" class="hover:text-emerald-600 transition-colors">Dashboard</a>
+                    <a href="/history" class="hover:text-emerald-600 transition-colors">History</a>
+                </div>
+
+                <p class="text-xs text-slate-400 text-center md:text-right">
+                    &copy; 2026 PocketSmart AI. All rights reserved. Built with pride.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Account - PocketSmart AI</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            200: '#a7f3d0',
+                            300: '#6ee7b7',
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#022c22',
+                            cyber: '#00ff87',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen flex flex-col justify-between text-slate-800 antialiased selection:bg-emerald-500 selection:text-white">
+
+    <!-- Top Simple Nav -->
+    <header class="py-6 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <a href="/" class="flex items-center gap-2.5 group">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-600 flex items-center justify-center text-white shadow-md shadow-emerald-200 group-hover:scale-105 transition-transform duration-200">
+                    <i data-lucide="sparkles" class="w-5 h-5"></i>
+                </div>
+                <span class="text-lg font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">PocketSmart <span class="text-emerald-600">AI</span></span>
+            </a>
+            <a href="/" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-emerald-600 flex items-center gap-1.5 transition-colors">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                Back to Home
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Auth Card Container -->
+    <main class="flex-grow flex items-center justify-center px-4 sm:px-6 lg:px-8 py-8">
+        <div class="w-full max-w-md">
+            <!-- Card -->
+            <div class="bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-100 p-8 sm:p-10 relative overflow-hidden">
+                <!-- Top Accent Line (Cyber Green) -->
+                <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-emerald-600 via-teal-500 to-emerald-600"></div>
+
+                <div class="text-center mb-6">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-3 border border-emerald-100">
+                        <i data-lucide="user-plus" class="w-6 h-6"></i>
+                    </div>
+                    <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Create Free Account</h1>
+                    <p class="mt-1 text-sm text-slate-500">Start planning smarter budgets in seconds</p>
+                </div>
+
+                <!-- Alert / Error Banner -->
+                <div id="errorMessage" class="hidden mb-5 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-sm flex items-start gap-3">
+                    <i data-lucide="alert-circle" class="w-5 h-5 text-rose-500 shrink-0 mt-0.5"></i>
+                    <span id="errorText">Please correct the highlighted errors.</span>
+                </div>
+
+                <!-- Form -->
+                <form id="registerForm" class="space-y-4" onsubmit="handleRegister(event)">
+                    <!-- Full Name -->
+                    <div>
+                        <label for="fullName" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                            Full Name <span class="text-slate-400 font-normal">(Optional)</span>
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                                <i data-lucide="smile" class="w-4 h-4"></i>
+                            </div>
+                            <input 
+                                type="text" 
+                                id="fullName" 
+                                name="full_name" 
+                                placeholder="e.g. Alex Hunter" 
+                                class="w-full pl-10 pr-4 py-2.5 bg-slate-50 hover:bg-white focus:bg-white text-slate-900 text-sm rounded-xl border border-slate-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all duration-200"
+                            />
+                        </div>
+                    </div>
+
+                    <!-- Username -->
+                    <div>
+                        <label for="username" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                            Username <span class="text-rose-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                                <i data-lucide="at-sign" class="w-4 h-4"></i>
+                            </div>
+                            <input 
+                                type="text" 
+                                id="username" 
+                                name="username" 
+                                required 
+                                autocomplete="username"
+                                placeholder="e.g. alex_hunter" 
+                                class="w-full pl-10 pr-4 py-2.5 bg-slate-50 hover:bg-white focus:bg-white text-slate-900 text-sm rounded-xl border border-slate-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all duration-200"
+                            />
+                        </div>
+                    </div>
+
+                    <!-- Email -->
+                    <div>
+                        <label for="email" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                            Email Address <span class="text-rose-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                                <i data-lucide="mail" class="w-4 h-4"></i>
+                            </div>
+                            <input 
+                                type="email" 
+                                id="email" 
+                                name="email" 
+                                required 
+                                autocomplete="email"
+                                placeholder="alex@example.com" 
+                                class="w-full pl-10 pr-4 py-2.5 bg-slate-50 hover:bg-white focus:bg-white text-slate-900 text-sm rounded-xl border border-slate-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all duration-200"
+                            />
+                        </div>
+                    </div>
+
+                    <!-- Password -->
+                    <div>
+                        <label for="password" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                            Password <span class="text-rose-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                                <i data-lucide="key-round" class="w-4 h-4"></i>
+                            </div>
+                            <input 
+                                type="password" 
+                                id="password" 
+                                name="password" 
+                                required 
+                                minlength="6"
+                                autocomplete="new-password"
+                                placeholder="At least 6 characters" 
+                                class="w-full pl-10 pr-4 py-2.5 bg-slate-50 hover:bg-white focus:bg-white text-slate-900 text-sm rounded-xl border border-slate-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all duration-200"
+                            />
+                        </div>
+                    </div>
+
+                    <!-- Confirm Password -->
+                    <div>
+                        <label for="confirmPassword" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">
+                            Confirm Password <span class="text-rose-500">*</span>
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                                <i data-lucide="shield-check" class="w-4 h-4"></i>
+                            </div>
+                            <input 
+                                type="password" 
+                                id="confirmPassword" 
+                                name="confirm_password" 
+                                required 
+                                autocomplete="new-password"
+                                placeholder="Re-enter your password" 
+                                class="w-full pl-10 pr-4 py-2.5 bg-slate-50 hover:bg-white focus:bg-white text-slate-900 text-sm rounded-xl border border-slate-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all duration-200"
+                            />
+                        </div>
+                    </div>
+
+                    <!-- Terms checkbox -->
+                    <div class="flex items-center gap-2 pt-1">
+                        <input type="checkbox" id="terms" required class="w-4 h-4 text-emerald-600 border-slate-300 rounded focus:ring-emerald-500">
+                        <label for="terms" class="text-xs text-slate-500">
+                            I agree to the Terms of Service & Privacy Policy
+                        </label>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button 
+                        type="submit" 
+                        id="submitButton"
+                        class="w-full mt-2 py-3.5 px-4 bg-emerald-600 hover:bg-emerald-700 hover:scale-[1.02] active:scale-[0.98] text-white text-sm font-bold rounded-xl shadow-lg shadow-emerald-300/50 transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                    >
+                        <span id="buttonText">Create Account</span>
+                        <div id="loadingSpinner" class="hidden w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    </button>
+                </form>
+
+                <!-- Footer Links -->
+                <div class="mt-6 text-center pt-5 border-t border-slate-100">
+                    <p class="text-sm text-slate-500">
+                        Already have an account? 
+                        <a href="/login" class="font-bold text-emerald-600 hover:text-emerald-700 hover:underline">
+                            Log in
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Note -->
+    <footer class="py-6 text-center text-xs text-slate-400">
+        PocketSmart AI &bull; Cyber Smart Financial Intelligence
+    </footer>
+
+    <!-- Logic -->
+    <script>
+        lucide.createIcons();
+
+        async function handleRegister(event) {
+            event.preventDefault();
+
+            const usernameInput = document.getElementById('username');
+            const fullNameInput = document.getElementById('fullName');
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+            const submitBtn = document.getElementById('submitButton');
+            const btnText = document.getElementById('buttonText');
+            const spinner = document.getElementById('loadingSpinner');
+            const errorBanner = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+
+            errorBanner.classList.add('hidden');
+
+            const username = usernameInput.value.trim();
+            const fullName = fullNameInput.value.trim();
+            const email = emailInput.value.trim();
+            const password = passwordInput.value;
+            const confirmPassword = confirmPasswordInput.value;
+
+            if (password !== confirmPassword) {
+                errorText.textContent = "Passwords do not match. Please verify.";
+                errorBanner.classList.remove('hidden');
+                confirmPasswordInput.focus();
+                return;
+            }
+
+            if (password.length < 6) {
+                errorText.textContent = "Password must be at least 6 characters long.";
+                errorBanner.classList.remove('hidden');
+                passwordInput.focus();
+                return;
+            }
+
+            submitBtn.disabled = true;
+            btnText.textContent = 'Registering Account...';
+            spinner.classList.remove('hidden');
+
+            try {
+                const response = await fetch('/register', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        username: username,
+                        email: email,
+                        full_name: fullName || null,
+                        password: password
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.detail || 'Registration failed. Please try again.');
+                }
+
+                btnText.textContent = 'Registered! Redirecting...';
+                setTimeout(() => {
+                    window.location.href = '/login?registered=1';
+                }, 500);
+
+            } catch (err) {
+                console.error('Registration error:', err);
+                errorText.textContent = err.message || 'Registration failed. Username may already exist.';
+                errorBanner.classList.remove('hidden');
+                submitBtn.disabled = false;
+                btnText.textContent = 'Create Account';
+                spinner.classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>

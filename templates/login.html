@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign In - PocketSmart AI</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#ecfdf5',
+                            100: '#d1fae5',
+                            200: '#a7f3d0',
+                            300: '#6ee7b7',
+                            400: '#34d399',
+                            500: '#10b981',
+                            600: '#059669',
+                            700: '#047857',
+                            800: '#065f46',
+                            900: '#022c22',
+                            cyber: '#00ff87',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-slate-50 min-h-screen flex flex-col justify-between text-slate-800 antialiased selection:bg-emerald-500 selection:text-white">
+
+    <!-- Top Simple Nav -->
+    <header class="py-6 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
+            <a href="/" class="flex items-center gap-2.5 group">
+                <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-600 to-teal-600 flex items-center justify-center text-white shadow-md shadow-emerald-200 group-hover:scale-105 transition-transform duration-200">
+                    <i data-lucide="sparkles" class="w-5 h-5"></i>
+                </div>
+                <span class="text-lg font-bold text-slate-900 group-hover:text-emerald-600 transition-colors">PocketSmart <span class="text-emerald-600">AI</span></span>
+            </a>
+            <a href="/" class="text-xs sm:text-sm font-semibold text-slate-500 hover:text-emerald-600 flex items-center gap-1.5 transition-colors">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                Back to Home
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Auth Card Container -->
+    <main class="flex-grow flex items-center justify-center px-4 sm:px-6 lg:px-8 py-10">
+        <div class="w-full max-w-md">
+            <!-- Card -->
+            <div class="bg-white rounded-2xl shadow-xl shadow-slate-200/60 border border-slate-100 p-8 sm:p-10 relative overflow-hidden">
+                <!-- Top Accent Line (Cyber Green) -->
+                <div class="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-emerald-600 via-teal-500 to-emerald-600"></div>
+
+                <div class="text-center mb-8">
+                    <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-4 border border-emerald-100">
+                        <i data-lucide="lock" class="w-6 h-6"></i>
+                    </div>
+                    <h1 class="text-2xl font-extrabold text-slate-900 tracking-tight">Welcome Back</h1>
+                    <p class="mt-2 text-sm text-slate-500">Sign in to access your AI budget blueprints</p>
+                </div>
+
+                <!-- Alert / Error Banner -->
+                <div id="errorMessage" class="hidden mb-6 p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-700 text-sm flex items-start gap-3 animate-fade-in">
+                    <i data-lucide="alert-circle" class="w-5 h-5 text-rose-500 shrink-0 mt-0.5"></i>
+                    <span id="errorText">Invalid username or password.</span>
+                </div>
+
+                <!-- Success Banner (e.g. from registration redirect) -->
+                <div id="successMessage" class="hidden mb-6 p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm flex items-start gap-3">
+                    <i data-lucide="check-circle-2" class="w-5 h-5 text-emerald-600 shrink-0 mt-0.5"></i>
+                    <span id="successText">Account created successfully! Please sign in.</span>
+                </div>
+
+                <!-- Form -->
+                <form id="loginForm" class="space-y-5" onsubmit="handleLogin(event)">
+                    <!-- Username Input -->
+                    <div>
+                        <label for="username" class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">
+                            Username
+                        </label>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                                <i data-lucide="user" class="w-4 h-4"></i>
+                            </div>
+                            <input 
+                                type="text" 
+                                id="username" 
+                                name="username" 
+                                required 
+                                autocomplete="username"
+                                placeholder="e.g. alex_hunter" 
+                                class="w-full pl-10 pr-4 py-3 bg-slate-50 hover:bg-white focus:bg-white text-slate-900 text-sm rounded-xl border border-slate-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all duration-200"
+                            />
+                        </div>
+                    </div>
+
+                    <!-- Password Input -->
+                    <div>
+                        <div class="flex items-center justify-between mb-2">
+                            <label for="password" class="block text-xs font-bold text-slate-700 uppercase tracking-wider">
+                                Password
+                            </label>
+                        </div>
+                        <div class="relative">
+                            <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
+                                <i data-lucide="key-round" class="w-4 h-4"></i>
+                            </div>
+                            <input 
+                                type="password" 
+                                id="password" 
+                                name="password" 
+                                required 
+                                autocomplete="current-password"
+                                placeholder="••••••••" 
+                                class="w-full pl-10 pr-10 py-3 bg-slate-50 hover:bg-white focus:bg-white text-slate-900 text-sm rounded-xl border border-slate-200 focus:border-emerald-600 focus:ring-4 focus:ring-emerald-500/10 outline-none transition-all duration-200"
+                            />
+                            <button 
+                                type="button" 
+                                onclick="togglePasswordVisibility()" 
+                                class="absolute inset-y-0 right-0 pr-3.5 flex items-center text-slate-400 hover:text-slate-600 transition-colors focus:outline-none"
+                                title="Toggle password visibility"
+                            >
+                                <i data-lucide="eye" id="eyeIcon" class="w-4 h-4"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button 
+                        type="submit" 
+                        id="submitButton"
+                        class="w-full py-3.5 px-4 bg-emerald-600 hover:bg-emerald-700 hover:scale-[1.02] active:scale-[0.98] text-white text-sm font-bold rounded-xl shadow-lg shadow-emerald-300/50 transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
+                    >
+                        <span id="buttonText">Sign In</span>
+                        <div id="loadingSpinner" class="hidden w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    </button>
+                </form>
+
+                <!-- Footer Links -->
+                <div class="mt-8 text-center pt-6 border-t border-slate-100">
+                    <p class="text-sm text-slate-500">
+                        Don't have an account? 
+                        <a href="/register" class="font-bold text-emerald-600 hover:text-emerald-700 hover:underline">
+                            Create free account
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer Note -->
+    <footer class="py-6 text-center text-xs text-slate-400">
+        PocketSmart AI &bull; Cyber Smart Security &bull; Powered by FastAPI
+    </footer>
+
+    <!-- Logic -->
+    <script>
+        lucide.createIcons();
+
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('registered') === '1') {
+            document.getElementById('successMessage').classList.remove('hidden');
+        } else if (urlParams.get('expired') === '1') {
+            const errEl = document.getElementById('errorMessage');
+            document.getElementById('errorText').textContent = 'Your session has expired. Please log in again.';
+            errEl.classList.remove('hidden');
+        }
+
+        function togglePasswordVisibility() {
+            const passInput = document.getElementById('password');
+            const eyeIcon = document.getElementById('eyeIcon');
+            if (passInput.type === 'password') {
+                passInput.type = 'text';
+                eyeIcon.setAttribute('data-lucide', 'eye-off');
+            } else {
+                passInput.type = 'password';
+                eyeIcon.setAttribute('data-lucide', 'eye');
+            }
+            lucide.createIcons();
+        }
+
+        async function handleLogin(event) {
+            event.preventDefault();
+            
+            const usernameInput = document.getElementById('username');
+            const passwordInput = document.getElementById('password');
+            const submitBtn = document.getElementById('submitButton');
+            const btnText = document.getElementById('buttonText');
+            const spinner = document.getElementById('loadingSpinner');
+            const errorBanner = document.getElementById('errorMessage');
+            const errorText = document.getElementById('errorText');
+            const successBanner = document.getElementById('successMessage');
+
+            errorBanner.classList.add('hidden');
+            successBanner.classList.add('hidden');
+
+            const username = usernameInput.value.trim();
+            const password = passwordInput.value;
+
+            if (!username || !password) {
+                errorText.textContent = 'Please enter both username and password.';
+                errorBanner.classList.remove('hidden');
+                return;
+            }
+
+            submitBtn.disabled = true;
+            btnText.textContent = 'Verifying...';
+            spinner.classList.remove('hidden');
+
+            try {
+                const formBody = new URLSearchParams();
+                formBody.append('username', username);
+                formBody.append('password', password);
+
+                const response = await fetch('/token', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded'
+                    },
+                    body: formBody
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.detail || 'Invalid username or password.');
+                }
+
+                if (data.access_token) {
+                    localStorage.setItem('access_token', data.access_token);
+                    localStorage.setItem('username', username);
+                }
+
+                btnText.textContent = 'Success! Redirecting...';
+                setTimeout(() => {
+                    window.location.href = '/dashboard';
+                }, 400);
+
+            } catch (err) {
+                console.error('Login error:', err);
+                errorText.textContent = err.message || 'Unable to connect to the server. Please try again.';
+                errorBanner.classList.remove('hidden');
+                submitBtn.disabled = false;
+                btnText.textContent = 'Sign In';
+                spinner.classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>
