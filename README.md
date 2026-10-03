@@ -3,7 +3,7 @@
 ## Project Overview
 PocketSmart AI redefines the way individuals plan budgets for everyday lifestyle needs by delivering smart, AI-driven recommendations across home interiors, party planning, and jewelry selection. 
 
-By combining the power of FastAPI with Google's Gemini 1.5 Flash, the system intelligently processes user inputs—budgets, preferences, and even multimodal images—to generate accurate and context-aware suggestions from multiple trusted platforms like Amazon, Flipkart, IKEA, Swiggy, Zomato, OYO, and more.
+By combining the power of FastAPI with Google's Gemini 3.5 Flash, the system intelligently processes user inputs—budgets, preferences, and even multimodal images—to generate accurate and context-aware suggestions from multiple trusted platforms like Amazon, Flipkart, IKEA, Swiggy, Zomato, OYO, and more.
 
 ## Architecture & Design
 From backend architecture to AI integration and a responsive frontend, PocketSmart AI has been built with a focus on efficiency, scalability, and user-centric design. 
@@ -17,4 +17,4 @@ With its seamless fusion of generative AI and modern web technologies, PocketSma
 
 ---
 **Author:** Saranstalin S
-**Tech Stack:** Python, FastAPI, Google Gemini 1.5 Flash, Tailwind CSS, HTML/JS
+**Tech Stack:** Python, FastAPI, Google Gemini 3.5 Flash, Tailwind CSS, HTML/JS
